@@ -102,7 +102,7 @@ There is nothing to compile: the files in the repo root are the plugin.
 | Modes | Show/hide each mode, names, icons, folders (with folder picker and live validation) |
 | School | Chapter behaviour, overview notes, numbering, default look |
 | Other & System | Archive folder, tiles, pinned section |
-| Pop-ups | Up to three notes with name, icon and note picker |
+| Pop-up notes | Up to three notes with name, icon and note picker |
 
 ![Settings](docs/screenshots/settings.png)
 
