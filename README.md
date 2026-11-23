@@ -35,7 +35,7 @@ Plain JavaScript, no build step, no dependencies, no network access. Works on de
 
 1. Install **Obsidian42 - BRAT** from *Settings → Community plugins → Browse*.
 2. Command palette → **BRAT: Add a beta plugin for testing**.
-3. Paste `alechunder01/sidebar-modes` and confirm.
+3. Paste `YOUR_GITHUB_USERNAME/obsidian-sidebar-modes` and confirm.
 4. Enable **Sidebar Modes** in *Settings → Community plugins*.
 
 ### Option B – Manual install from a release
@@ -49,8 +49,8 @@ Plain JavaScript, no build step, no dependencies, no network access. Works on de
 ### Option C – From source
 
 ```bash
-git clone https://github.com/alechunder01/sidebar-modes.git
-cd sidebar-modes
+git clone https://github.com/YOUR_GITHUB_USERNAME/obsidian-sidebar-modes.git
+cd obsidian-sidebar-modes
 mkdir -p "/path/to/vault/.obsidian/plugins/sidebar-modes"
 cp main.js manifest.json styles.css "/path/to/vault/.obsidian/plugins/sidebar-modes/"
 ```
