@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="200" viewBox="0 0 560 200">
+  <rect width="560" height="200" rx="12" fill="#202020"/>
+  <circle cx="130" cy="100" r="28" fill="#ff6b6b"/>
+  <text x="130" y="110" font-family="sans-serif" font-size="30" text-anchor="middle" fill="#191919">+</text>
+  <circle cx="430" cy="100" r="28" fill="#6188ff"/>
+  <text x="430" y="109" font-family="sans-serif" font-size="30" text-anchor="middle" fill="#191919">−</text>
+  <line x1="170" y1="100" x2="255" y2="100" stroke="#e6e6e6" stroke-width="3"/>
+  <polygon points="255,92 271,100 255,108" fill="#e6e6e6"/>
+  <line x1="390" y1="100" x2="305" y2="100" stroke="#e6e6e6" stroke-width="3"/>
+  <polygon points="305,92 289,100 305,108" fill="#e6e6e6"/>
+  <text x="280" y="70" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#9b9b9b">r</text>
+  <text x="280" y="150" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#9b9b9b">unlike charges attract</text>
+</svg>

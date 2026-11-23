@@ -1,0 +1,89 @@
+{
+  "mode": "skola",
+  "current": "01 Physics",
+  "sort": "name",
+  "styles": {
+    "School/01 Physics": {
+      "icon": "atom",
+      "color": "#6188ff"
+    },
+    "School/02 Networks": {
+      "icon": "network",
+      "color": "#9be37a"
+    },
+    "School/03 Economics": {
+      "icon": "coins",
+      "color": "#5fd7c0"
+    },
+    "School/Mathematics": {
+      "icon": "sigma",
+      "color": "#ffb454"
+    },
+    "School/Literature": {
+      "icon": "book-a",
+      "color": "#ffdd94"
+    },
+    "School/Cybersecurity": {
+      "icon": "shield",
+      "color": "#bb9af7"
+    },
+    "Personal/Gift Ideas.md": {
+      "icon": "gift"
+    },
+    "Personal/Quotes.md": {
+      "icon": "pencil"
+    },
+    "Personal/Jokes.md": {
+      "icon": "smile"
+    },
+    "Personal/Date Night Ideas.md": {
+      "icon": "heart",
+      "color": "#ff6b6b"
+    },
+    "Personal/Music": {
+      "color": "#ff6b6b"
+    },
+    "Personal/Projects": {
+      "color": "#9be37a"
+    },
+    "School/02 Networks/Resources.md": {
+      "icon": "book-open"
+    }
+  },
+  "pinned": [
+    "Personal/Quotes.md",
+    "Personal/Jokes.md",
+    "Personal/Gift Ideas.md",
+    "Personal/Music/Lyrics/Sample Verse.md",
+    "School/02 Networks/Resources.md"
+  ],
+  "lastNote": {
+    "02 Networks": "School/02 Networks/01 Setup a network/04 ACL.md",
+    "01 Physics": "School/01 Physics/01 Electric Field/01.2 Coulomb's Law.md",
+    "03 Economics": "School/03 Economics/02 Entrepreneurship.md",
+    "Literature": "School/Literature/02 Romanticism.md",
+    "Cybersecurity": "School/Cybersecurity/Backups Presentation.md",
+    "Mathematics": "School/Mathematics/Quarterly Test 1.md"
+  },
+  "settings": {
+    "schoolFolder": "School",
+    "otherFolder": "Personal",
+    "systemFolder": "System",
+    "archiveFolder": "System/Archive",
+    "maxRows": 200,
+    "modeSchool": "School",
+    "modeOther": "Other",
+    "modeSystem": "System",
+    "cs1Name": "LaTeX Cheat Sheet",
+    "cs1Title": "LaTeX",
+    "cs1Icon": "sigma",
+    "cs2Name": "Markdown Cheat Sheet",
+    "cs2Title": "Markdown",
+    "cs2Icon": "hash",
+    "cs3Name": "Hotkeys Cheat Sheet",
+    "cs3Title": "Hotkeys",
+    "cs3Icon": "keyboard",
+    "autoOverviews": true,
+    "openOnStart": true
+  }
+}

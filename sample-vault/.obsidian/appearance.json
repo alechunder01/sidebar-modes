@@ -1,0 +1,11 @@
+{
+  "showRibbon": false,
+  "cssTheme": "",
+  "enabledCssSnippets": [
+    "style"
+  ],
+  "accentColor": "",
+  "translucency": true,
+  "showViewHeader": false,
+  "nativeMenus": false
+}

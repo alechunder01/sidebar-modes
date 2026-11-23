@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+*.bak
+.obsidian/workspace*.json
+sample-vault/.obsidian/workspace*.json

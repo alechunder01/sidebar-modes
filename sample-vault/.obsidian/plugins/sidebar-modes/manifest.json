@@ -1,0 +1,9 @@
+{
+  "id": "sidebar-modes",
+  "name": "Sidebar Modes",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "A sidebar panel with three modes: school subjects with chapters, a file manager for everything else, and system folders.",
+  "author": "Alex",
+  "isDesktopOnly": false
+}
