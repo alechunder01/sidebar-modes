@@ -1,0 +1,1236 @@
+/* ==========================================================================
+   style.css — ALL my CSS snippets in one file
+   Sections:  1) NOTION DARK (colors/layout)   2) MONO HEADINGS (fonts)
+   Order matters: later rules win when specificity is equal, so keep 1 before 2.
+   ========================================================================== */
+
+/* ############################ 1) NOTION DARK ############################ */
+
+/* ==========================================================================
+   NOTION DARK — a black/gray look for Obsidian's DEFAULT theme
+   ==========================================================================
+   How it works:
+   Obsidian's default theme builds (almost) every color from one gray scale:
+   --color-base-00 (darkest) ... --color-base-100 (lightest).
+   Change the scale -> the whole app changes. Then we fine-tune a few
+   specific variables on top.
+
+   Why "body.theme-dark"? The default theme defines its colors on
+   ".theme-dark". "body.theme-dark" is more specific (one extra element
+   selector), so our values win without needing !important.
+   ========================================================================== */
+
+
+/* --- 1. GRAY SCALE ------------------------------------------------------ */
+body.theme-dark {
+  --color-base-00: #191919;  /* main page background                    */
+  --color-base-05: #1c1c1c;
+  --color-base-10: #1f1f1f;
+  --color-base-20: #202020;  /* sidebars                                */
+  --color-base-25: #262626;  /* cards: callouts, code, embeds           */
+  --color-base-30: #2c2c2c;  /* borders                                 */
+  --color-base-35: #363636;  /* hover                                   */
+  --color-base-40: #4a4a4a;
+  --color-base-50: #5e5e5e;  /* faint text                              */
+  --color-base-60: #8a8a8a;
+  --color-base-70: #9b9b9b;  /* muted text                              */
+  --color-base-100: #e6e6e6; /* normal text (off-white is easier on the eyes) */
+
+  /* Accent = white instead of Obsidian's purple.
+     hsl(0, 0%, 88%) = no hue, no saturation, 88% light = light gray. */
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 88%;
+  --text-on-accent: #191919;  /* dark text/marks ON white buttons & checkboxes */
+}
+
+
+/* --- 2. TEXT, LINKS, TAGS ---------------------------------------------- */
+body.theme-dark {
+  --bold-color: #ffffff;
+  --bold-weight: 700;
+
+  /* links = underlined text, like Notion */
+  --link-color: var(--text-normal);
+  --link-color-hover: #ffffff;
+  --link-external-color: var(--text-normal);
+  --link-external-color-hover: #ffffff;
+  --link-decoration: underline;
+  --link-external-decoration: underline;
+  --link-unresolved-color: var(--text-muted);   /* links to notes that don't exist yet */
+  --link-unresolved-opacity: 1;
+
+  /* tags = small gray labels */
+  --tag-color: var(--text-muted);
+  --tag-color-hover: var(--text-normal);
+  --tag-background: rgba(255, 255, 255, 0.07);
+  --tag-background-hover: rgba(255, 255, 255, 0.12);
+  --tag-border-width: 0;
+  --tag-radius: 4px;
+
+  --text-selection: rgba(255, 255, 255, 0.14);
+  --text-highlight-bg: rgba(255, 255, 255, 0.15);  /* ==highlight== */
+
+  --checkbox-color: var(--text-normal);
+  --checkbox-color-hover: #ffffff;
+  --checkbox-marker-color: #191919;
+  --checkbox-radius: 4px;
+}
+
+
+/* --- 3. FONTS ------------------------------------------------------------
+  The Custom Font Loader plugin sets JetBrains Mono on EVERY element with
+  ":root *" -> specificity (0,1,0). "body.theme-dark *" -> (0,1,1) wins.
+
+  BUG I had before: "body.theme-dark *" matches everything INSIDE body,
+  but not body itself. Obsidian calculates the text font (--font-text)
+  ON body, so body still saw JetBrains Mono and passed it down.
+  Headings worked because they calculate their font on their own element.
+  Fix: list "body.theme-dark" itself too.
+
+  Font stack = list of fallbacks, the first installed one is used.
+  Inter (free, rsms.me/inter) -> otherwise SF Pro, the Mac system font.
+*/
+body.theme-dark,
+body.theme-dark *,
+body.theme-light,
+body.theme-light * {
+  --font-text-override: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-interface-override: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-default: var(--font-text-override);
+  --default-font: var(--font-text-override);
+  --font-family-editor: var(--font-text-override);
+  /* code stays monospace (the plugin's JetBrains Mono) */
+  --font-monospace-override: "jetbrainsmono-regular", "JetBrainsMono-Regular", "JetBrains Mono", ui-monospace, monospace;
+  --font-monospace-default: var(--font-monospace-override);
+}
+
+body {
+  --line-height-normal: 1.6;
+}
+
+/* note text (editor + reading view) uses the text font directly */
+.markdown-source-view.mod-cm6 .cm-scroller,
+.markdown-rendered {
+  font-family: var(--font-text-override);
+}
+
+
+/* --- 4. HEADINGS ---------------------------------------------------------
+  Setting --hN-* variables styles BOTH Live Preview and Reading view.
+  No color: hierarchy comes from size, weight and brightness.
+  Sizes in "em" follow Obsidian's font-size setting ("rem" would ignore it).
+*/
+body.theme-dark {
+  /* Shades of ONE blue. Only saturation (s) and lightness (l) change:
+     h1 = strongest blue, each level lighter and grayer.
+     Change --heading-hue to re-color all headings at once
+     (210-225 = blue, 260 = purple, 160 = mint, 30 = orange). */
+  --heading-hue: 218;
+  --h1-color: hsl(var(--heading-hue) 100% 74%);
+  --h2-color: hsl(var(--heading-hue) 90% 79%);
+  --h3-color: hsl(var(--heading-hue) 75% 84%);
+  --h4-color: hsl(var(--heading-hue) 55% 86%);
+  --h5-color: hsl(var(--heading-hue) 30% 80%);
+  --h6-color: hsl(var(--heading-hue) 15% 66%);
+}
+
+body {
+  --h1-size: 2.2em;
+  --h2-size: 1.75em;
+  --h3-size: 1.4em;
+  --h4-size: 1.2em;
+  --h5-size: 1.05em;
+  --h6-size: 0.95em;
+
+  --h1-weight: 800;
+  --h2-weight: 700;
+  --h3-weight: 650;
+  --h4-weight: 600;
+  --h5-weight: 600;
+  --h6-weight: 600;
+
+  /* big text needs tighter line-height than body text */
+  --h1-line-height: 1.15;
+  --h2-line-height: 1.3;
+  --h3-line-height: 1.25;
+  --h4-line-height: 1.3;
+  --h5-line-height: 1.35;
+  --h6-line-height: 1.4;
+
+  --h1-letter-spacing: -0.02em;  /* big text: letters slightly closer */
+  --h2-letter-spacing: -0.01em;
+}
+
+
+/* Spacing: more space ABOVE a heading than below it,
+   so it visually belongs to the text that follows. */
+.markdown-rendered :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+/* Editor lines use padding, not margin: CodeMirror measures line heights
+   without margins, so margins make the cursor and scrolling jump. */
+.markdown-source-view.mod-cm6 .HyperMD-header {
+  padding-top: 1em;
+  padding-bottom: 0.3em;
+}
+.markdown-source-view.mod-cm6 .HyperMD-header-1 { padding-top: 1.2em; }
+
+
+/* --- 5. CARDS ------------------------------------------------------------
+  Same recipe for every block: slightly lighter background,
+  1px border, rounded corners. That consistency is the whole "look".
+*/
+body.theme-dark {
+  --card-bg: var(--color-base-25);
+  --card-border: 1px solid var(--background-modifier-border);
+  --card-radius: 8px;
+
+  --code-background: var(--card-bg);
+  --code-radius: var(--card-radius);
+  --callout-radius: var(--card-radius);
+  --embed-background: var(--card-bg);
+  --blockquote-border-color: var(--color-base-40);
+  --table-border-color: var(--background-modifier-border);
+  --table-header-background: var(--background-secondary);
+  --table-header-color: var(--text-muted);
+}
+
+/* Callouts: gray card, the type's color only on the title + icon */
+.callout {
+  background-color: var(--card-bg);
+  border: var(--card-border);
+  mix-blend-mode: normal;
+}
+
+/* Code blocks */
+.markdown-rendered pre,
+.HyperMD-codeblock-bg {
+  border: var(--card-border);
+}
+
+/* Embedded notes */
+.markdown-embed {
+  background-color: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+}
+
+/* Math blocks ($$ ... $$) */
+
+/* Reading mode: keep the original size */
+.markdown-rendered .math-block {
+  background-color: #161616;
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  padding: 1.4rem 1rem;
+  margin: 1.2em 0;
+  font-size: 1.55em;
+  box-sizing: border-box;
+  overflow-x: auto;   /* long equations scroll instead of overflowing */
+}
+
+/* Edit / live preview mode: bigger box, bigger formula, rounder corners */
+.cm-embed-block.cm-math-type {
+  background-color: #161616 !important;
+  border: var(--card-border);
+  border-radius: 12px !important;
+  padding: 1.4rem 1rem;
+  margin: 1.2em 0;
+  font-size: 2.6em !important;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+.cm-embed-block.cm-math-type mjx-container {
+  font-size: 1.5em !important;
+  zoom: 1.4;   /* actually enlarges the formula, not only the font setting */
+}
+
+/* Inline code */
+.cm-inline-code,
+.markdown-rendered :not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+/* Table headers: slightly smaller and muted, like database columns */
+.markdown-rendered th,
+.cm-table-widget th {
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+
+/* --- 6. SIDEBAR & TABS ------------------------------------------------
+  Readability = contrast + size + space + structure:
+  - file names brighter (#c8c8c8 instead of the very dim muted gray)
+  - slightly bigger text and taller rows (easier to scan and click)
+  - folders bold and white, files regular -> you see the structure at a glance
+  - visible indentation guides show what is inside which folder
+*/
+body.theme-dark {
+  --nav-item-size: 14px;                 /* default is 13px */
+  --nav-item-padding: 5px 8px 5px 24px;  /* taller rows */
+  --nav-item-color: #c8c8c8;
+  --nav-item-color-hover: #ffffff;
+  --nav-item-color-active: #ffffff;
+  --nav-item-background-hover: rgba(255, 255, 255, 0.05);
+  --nav-item-background-active: hsla(var(--heading-hue), 60%, 60%, 0.18);  /* soft blue */
+  --nav-item-weight-active: 600;
+  --nav-indentation-guide-color: rgba(255, 255, 255, 0.08);
+  --nav-indentation-guide-width: 1px;
+
+  --tab-text-color-focused-active-current: #ffffff;
+  --divider-color: var(--background-modifier-border);
+}
+
+/* Folders: bold + white, so they stand out from files */
+.nav-folder-title {
+  font-weight: 600;
+  color: var(--text-normal);
+}
+
+/* Top-level folders (00 Inbox, 01 Škola, ...) get a bit of space above
+   them, so the main sections read like groups.
+   ">" = direct child only, so nested folders are not affected. */
+.nav-files-container > div > .nav-folder > .nav-folder-title {
+  margin-top: 4px;
+}
+
+/* File-type labels (PDF, PNG, CANVAS...) quieter */
+.nav-file-tag {
+  opacity: 0.5;
+}
+
+/* Rounded hover/active highlight */
+.nav-file-title,
+.nav-folder-title {
+  border-radius: 6px;
+}
+
+
+/* --- 7. BUTTONS ---------------------------------------------------------
+  A custom callout type: "> [!buttons]". Obsidian puts the type into the
+  HTML as data-callout="buttons", so we can target it with an
+  attribute selector [data-callout="buttons"] and style the links in it.
+*/
+.callout[data-callout="buttons"] {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.callout[data-callout="buttons"] .callout-title {
+  display: none;
+}
+.callout[data-callout="buttons"] .callout-content > p {
+  display: flex;        /* put the links in a row ... */
+  flex-wrap: wrap;      /* ... that wraps on narrow screens */
+  gap: 0.5rem;
+  margin: 0;
+}
+.callout[data-callout="buttons"] a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5em 1em;
+  background-color: var(--card-bg);
+  background-image: none;          /* hides the external-link arrow icon */
+  border: var(--card-border);
+  border-radius: 6px;
+  color: var(--text-normal);
+  text-decoration: none;
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.callout[data-callout="buttons"] a:hover {
+  background-color: var(--color-base-35);
+  border-color: hsl(var(--heading-hue) 60% 60%);
+  color: #ffffff;
+}
+
+
+/* ############################ 2) MONO HEADINGS ############################ */
+
+/* --- UI BORDERS --- */
+.workspace-leaf, .workspace-split {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* --- FONTS ---
+  The Custom Font Loader plugin sets JetBrains Mono on EVERY element
+  with the selector ":root *". Specificity of ":root *" = (0,1,0).
+  "body.theme-dark *" = (0,1,1): one extra element selector, so it wins
+  no matter which stylesheet loads last.
+
+  Font stack = a list of fallbacks: the first one installed is used.
+  Inter is the "modern" pick (free, rsms.me/inter); if it isn't
+  installed, Macs fall back to SF Pro (-apple-system), also modern.
+*/
+body.theme-dark *,
+body.theme-light * {
+  --font-text-override: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-interface-override: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  --font-default: var(--font-text-override);
+  --default-font: var(--font-text-override);
+  --font-family-editor: var(--font-text-override);
+  /* code stays monospace: the plugin's JetBrains Mono */
+  --font-monospace-override: "jetbrainsmono-regular", "JetBrainsMono-Regular", "JetBrains Mono", ui-monospace, monospace;
+  --font-monospace-default: var(--font-monospace-override);
+}
+
+/* Sans-serif text reads better a little larger, with comfortable line spacing */
+body {
+  --line-height-normal: 1.6;
+}
+
+/* --- BLACK / GRAY PALETTE (Notion-style) ---
+  Tokyo Night builds every color from a few base values like --bg_x
+  ("26, 27, 38" = slightly blue). Overriding just those base values
+  re-colors the whole interface, because everything else is built from them.
+  Equal R, G and B = pure gray, no color tint.
+
+  The look: near-black page, slightly lighter "cards" (sidebars, callouts,
+  code, embeds) separated by thin borders, and white text. Depth comes from
+  small steps in lightness (25 -> 32 -> 42), not from color.
+*/
+body.theme-dark {
+  /* backgrounds, darkest -> lightest */
+  --bg_x: 25, 25, 25;                /* main page  (#191919) */
+  --bg_dark2_x: 28, 28, 28;          /* table headers, scrollbar */
+  --bg_dark_x: 32, 32, 32;           /* sidebars, cards, callouts (#202020) */
+  --bg_highlight_dark_x: 37, 37, 37; /* code background */
+  --bg_highlight_x: 42, 42, 42;      /* borders, hover, active item */
+  --terminal_black_x: 70, 70, 70;
+
+  /* text: off-white is easier on the eyes than pure #fff */
+  --fg_x: 230, 230, 230;      /* normal text */
+  --fg_dark_x: 155, 155, 155; /* muted text */
+  --comment_x: 100, 100, 100; /* faint text */
+  --blue0_x: 80, 80, 80;      /* text selection + frontmatter */
+
+  /* Accent = white. Checkboxes, toggles and buttons become
+     white with dark marks, like in the reference. */
+  --accent-h: 0;
+  --accent-s: 0%;
+  --accent-l: 88%;
+
+  /* Things the theme colored -> white / gray */
+  --bold-color: #ffffff;
+  --italic-color: var(--fg);
+  --text-accent: var(--fg);
+  --text-accent-hover: #ffffff;
+  --link-color: var(--fg);
+  --link-color-hover: #ffffff;
+  --link-external-color: var(--fg);
+  --link-external-color-hover: #ffffff;
+  --link-decoration: underline;          /* links = underlined text, like Notion */
+  --link-decoration-thickness: 1px;
+  --link-external-decoration: underline;
+  --interactive-accent-hover: #ffffff;
+  --tag-color: var(--fg_dark);
+  --tag-background: rgba(255, 255, 255, 0.07);
+  --tag-color-hover: var(--fg);
+  --tag-background-hover: rgba(255, 255, 255, 0.12);
+  --tag-radius: 4px;                     /* small pills instead of round ones */
+  --icon-color-hover: var(--fg);
+  --icon-color-focused: var(--fg);
+  --icon-color-active: var(--fg);
+  --nav-item-color-active: var(--fg);
+  --tab-text-color-focused-active: var(--fg);
+  --tab-text-color-focused-active-current: #ffffff;
+  --date-color: var(--fg_dark);
+  --text-highlight-bg: rgba(255, 255, 255, 0.15); /* ==highlight== */
+  --checkbox-color: var(--fg);
+  --checkbox-color-hover: #ffffff;
+  --checkbox-marker-color: var(--bg);
+}
+
+/* frontmatter keys: the theme hardcodes blue here */
+.cm-atom { color: var(--fg_dark); }
+
+/* --- HEADINGS --- */
+/*
+  Obsidian styles headings through CSS variables (--h1-size, --h1-color, ...).
+  Setting the variables once changes BOTH Live Preview and Reading view,
+  so we don't need separate .cm-header / .markdown-rendered rules or !important.
+
+  body.theme-dark is more specific than the theme's own .theme-dark rule,
+  so these values win over Tokyo Night's heading colors.
+*/
+body.theme-dark {
+  /* A bit of colour per level (same palette as the Subject Switcher panel).
+     Change any of these to taste: they are normal CSS colours. */
+  --h1-color: #7aa2f7;   /* blue   */
+  --h2-color: #bb9af7;   /* purple */
+  --h3-color: #5fd7c0;   /* teal   */
+  --h4-color: #ffb454;   /* orange */
+  --h5-color: #9ece6a;   /* green  */
+  --h6-color: #9aa0a6;   /* gray   */
+}
+
+body {
+  /* Size scale: each level is ~1.25x the one below.
+     "em" follows Obsidian's font-size setting; "rem" would ignore it. */
+  --h1-size: 2.2em;
+  --h2-size: 1.6em;
+  --h3-size: 1.35em;
+  --h4-size: 1.15em;
+  --h5-size: 1.05em;
+  --h6-size: 0.95em;
+
+  /* Bigger headings look better slightly heavier */
+  --h1-weight: 800;
+  --h2-weight: 700;
+  --h3-weight: 650;
+  --h4-weight: 600;
+  --h5-weight: 600;
+  --h6-weight: 600;
+
+  /* Large text needs tighter line-height than body text (~1.5) */
+  --h1-line-height: 1.15;
+  --h2-line-height: 1.2;
+  --h3-line-height: 1.25;
+  --h4-line-height: 1.3;
+  --h5-line-height: 1.35;
+  --h6-line-height: 1.4;
+
+  /* Big headings: pull the letters a bit closer together */
+  --h1-letter-spacing: -0.02em;
+  --h2-letter-spacing: -0.01em;
+}
+
+/* (h2 used to be shown in SPACED CAPITALS here - removed, headings now look like you typed them) */
+
+/* --- HEADING SPACING ---
+  Rule of thumb: more space ABOVE a heading than below it,
+  so the heading visually "belongs" to the text that follows.
+  em is relative to the heading's own size, so h1 automatically
+  gets more space than h4.
+*/
+
+/* Reading view */
+.markdown-rendered :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+  padding-bottom: 0.2em; /* room for Tokyo Night's divider line */
+}
+
+/* Live Preview / editor.
+  Editor lines use padding, not margin: CodeMirror measures line
+  heights without margins, so margins can make the cursor and
+  scrolling jump around. */
+.markdown-source-view.mod-cm6 .HyperMD-header {
+  padding-top: 1em;
+  padding-bottom: 0.3em;
+}
+.markdown-source-view.mod-cm6 .HyperMD-header-1 { padding-top: 1.2em; }
+
+/* --- CARDS (callouts, code, embeds, tables) ---
+  The reference puts every block in a slightly lighter box with a thin
+  border and rounded corners. The same three properties on each block
+  type gives the vault that consistent "card" look.
+*/
+body.theme-dark {
+  --callout-radius: 8px;
+  --code-radius: 8px;
+  --embed-background: var(--bg_dark);
+  --blockquote-background-color: transparent;
+  --blockquote-border-color: var(--bg_highlight);
+  --table-border-color: var(--bg_highlight);
+  --table-header-background: var(--bg_dark);
+  --table-header-color: var(--fg_dark);
+}
+
+/* Callouts: gray card, the type color only on the title + icon */
+.callout {
+  background-color: var(--background-secondary) !important;
+  border: 1px solid var(--background-modifier-border) !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Code blocks */
+.markdown-rendered pre,
+.HyperMD-codeblock-bg {
+  border: 1px solid var(--background-modifier-border);
+}
+
+/* Embedded notes */
+.markdown-embed {
+  border: 1px solid var(--background-modifier-border) !important;
+  border-radius: 8px;
+}
+
+/* Table headers: slightly smaller, bold - normal case */
+.markdown-rendered th,
+.cm-table-widget th {
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+/* --- INLINE CODE --- */
+.cm-inline-code, .markdown-rendered code {
+  font-family: var(--font-monospace) !important; /* same font as code blocks */
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+/* --- MATH EQUATIONS ($$ ... $$) --- */
+/* Sidebar-matching container box */
+.math-block,
+.cm-embed-block.cm-math-type {
+  font-size: 1.35em !important;
+  margin: 1.2em 0 !important;
+  background-color: var(--background-secondary) !important;
+  border-radius: 6px;
+  padding: 1rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* --- SIDEBAR & FILE EXPLORER HIGHLIGHTS --- */
+
+/* Active/selected file in sidebar */
+.nav-file-title.is-active,
+.nav-folder-title.is-active {
+  background-color: var(--bg_highlight) !important; /* gray highlight */
+  color: var(--text-accent) !important; /* follows the accent hue */
+  font-weight: 600 !important;
+  border-radius: 4px;
+}
+
+/* Hover effect on files in sidebar */
+.nav-file-title:hover,
+.nav-folder-title:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: var(--fg) !important;
+}
+
+/* --- TAB BAR HIGHLIGHTS --- */
+
+/* Active tab title & background */
+.workspace-tab-header.is-active {
+  background-color: var(--background-primary) !important;
+  color: var(--text-accent) !important;
+}
+
+/* Tab close button & icons for active tab */
+.workspace-tab-header.is-active .workspace-tab-header-inner-title,
+.workspace-tab-header.is-active .workspace-tab-header-inner-icon {
+  color: var(--text-accent) !important;
+}
+
+/* Hover effect on inactive tabs */
+.workspace-tab-header:hover {
+  color: var(--fg) !important;
+}
+
+/* Reset sidebar folder text to clean neutral text */
+.nav-folder-title-content {
+  color: var(--text-muted) !important;
+}
+
+/* Active folder or hovered folder text gets brightened */
+.nav-folder-title:hover .nav-folder-title-content,
+.nav-folder-title.is-active .nav-folder-title-content {
+  color: var(--text-normal) !important;
+}
+
+
+/* ############################ 3) SCROLLBARS ############################ */
+/*
+  Thin and invisible until you move the mouse over the area that scrolls.
+  How it works: the thumb (the draggable bar) is transparent by default. The rule
+  "*:hover::-webkit-scrollbar-thumb" colours it only for the scroll areas the mouse is
+  currently inside. Want them always visible? Change the first "transparent" below.
+*/
+body:not(.native-scrollbars) {
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: transparent;
+  --scrollbar-active-thumb-bg: rgba(255, 255, 255, 0.28);
+}
+body:not(.native-scrollbars) *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+body:not(.native-scrollbars) *::-webkit-scrollbar-track,
+body:not(.native-scrollbars) *::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+body:not(.native-scrollbars) *::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+  border: 3px solid transparent;       /* the border makes the visible bar thinner */
+  background-clip: content-box;
+  border-radius: 10px;
+}
+body:not(.native-scrollbars) *:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+body:not(.native-scrollbars) *::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ############################ 4) CONTENT POLISH ############################
+   Tuned to what the vault actually contains (counted across all notes):
+   lots of bullet lists, inline math, inline code, tables (Sítě, cheat sheets),
+   code blocks, horizontal rules, images. Each block below targets one of those.
+*/
+
+/* --- BULLET LISTS: softer markers, a bit more air between items --- */
+body.theme-dark {
+  --list-marker-color: var(--text-faint);
+  --list-indent: 1.6em;
+  --list-spacing: 0.15em;
+}
+
+/* --- TABLES: rounded outer border, subtle zebra rows, roomy cells --- */
+.markdown-rendered table,
+.cm-table-widget table {
+  border-collapse: separate;      /* needed so border-radius works on tables */
+  border-spacing: 0;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.markdown-rendered th,
+.markdown-rendered td,
+.cm-table-widget th,
+.cm-table-widget td {
+  padding: 8px 14px;
+  border: none;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.markdown-rendered tbody tr:last-child td,
+.cm-table-widget tbody tr:last-child td { border-bottom: none; }
+.markdown-rendered tbody tr:nth-child(even) td,
+.cm-table-widget tbody tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.025);   /* zebra stripe */
+}
+.markdown-rendered th,
+.cm-table-widget th {
+  background-color: var(--background-secondary);
+  color: var(--text-muted);
+}
+
+/* --- CODE BLOCKS (Sítě notes): more padding, muted language label --- */
+.markdown-rendered pre {
+  padding: 4px 6px;
+}
+.markdown-rendered pre code {
+  background: transparent !important;   /* no double box from the inline-code style */
+  padding: 0;
+  font-size: 0.88em;
+  line-height: 1.55;
+}
+.markdown-rendered .copy-code-button { opacity: 0.5; }
+.markdown-rendered pre:hover .copy-code-button { opacity: 1; }
+
+/* --- HORIZONTAL RULES: thin, faint, with space around --- */
+.markdown-rendered hr,
+.cm-hr {
+  border: none;
+  height: 1px;
+  background-color: var(--background-modifier-border);
+  margin: 2em 0;
+}
+
+/* --- IMAGES (physics diagrams): rounded, never wider than the page --- */
+.markdown-rendered img,
+.image-embed img {
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+/* --- INLINE MATH: keep it the same size as the text around it --- */
+.markdown-rendered mjx-container:not([display="true"]) {
+  font-size: 1em !important;
+}
+
+/* --- BLOCKQUOTES: thin accent bar, muted italic-free text --- */
+.markdown-rendered blockquote {
+  border-left: 3px solid var(--color-base-40);
+  color: var(--text-muted);
+  padding: 2px 0 2px 1em;
+}
+
+/* --- CHECKBOXES: done items fade out --- */
+.markdown-rendered ul > li.task-list-item.is-checked,
+.HyperMD-task-line[data-task="x"] {
+  color: var(--text-faint);
+}
+
+/* --- 4b) specificity fixes (Obsidian's own table/pre rules were winning) --- */
+.markdown-rendered table th,
+.markdown-rendered table td,
+.markdown-source-view.mod-cm6 .cm-embed-block table th,
+.markdown-source-view.mod-cm6 .cm-embed-block table td {
+  padding: 9px 16px !important;
+  border-bottom: 1px solid var(--background-modifier-border) !important;
+  vertical-align: middle;
+}
+.markdown-rendered table thead th {
+  border-bottom: 1px solid var(--color-base-40) !important;  /* header underline, a touch stronger */
+}
+.markdown-rendered pre {
+  padding: 14px 18px !important;
+  overflow-x: auto;
+}
+.markdown-rendered pre code {
+  white-space: pre;            /* keep command alignment; scroll instead of wrapping */
+}
+.markdown-rendered pre,
+.markdown-rendered pre code { white-space: pre !important; }
+.markdown-rendered pre code { display: block; width: max-content; min-width: 100%; padding-right: 18px !important; }
+
+/* ############################ 5) CONTEXT MENUS ############################
+   Applies to every right-click / dropdown menu (the Subject Switcher uses
+   Obsidian's own Menu, so styling .menu restyles all of them consistently).
+*/
+.menu {
+  padding: 6px;
+  min-width: 200px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: color-mix(in srgb, #1c1c1f 96%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  backdrop-filter: blur(24px) saturate(1.4);          /* frosted glass */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+.menu-item {
+  padding: 7px 10px;
+  gap: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text-normal);
+}
+.menu-item-icon { color: var(--text-muted); }
+.menu-item-icon .svg-icon { width: 16px; height: 16px; }
+
+/* hover / keyboard selection: soft tint of the panel's accent colour */
+.menu-item:hover:not(.is-disabled):not(.is-label),
+.menu-item.selected:not(.is-disabled):not(.is-label) {
+  background-color: color-mix(in srgb, var(--interactive-accent) 22%, transparent);
+  color: #fff;
+}
+.menu-item:hover:not(.is-disabled) .menu-item-icon,
+.menu-item.selected:not(.is-disabled) .menu-item-icon { color: #fff; }
+
+/* destructive item (Smazat): red text, red tint on hover */
+.menu-item.is-warning { color: var(--text-error); }
+.menu-item.is-warning .menu-item-icon { color: var(--text-error); }
+.menu-item.is-warning:hover:not(.is-disabled),
+.menu-item.is-warning.selected:not(.is-disabled) {
+  background-color: color-mix(in srgb, var(--text-error) 18%, transparent);
+  color: var(--text-error);
+}
+.menu-item.is-warning:hover .menu-item-icon { color: var(--text-error); }
+
+.menu-separator {
+  margin: 5px 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* menu hover: win over Obsidian's default grey hover */
+.menu .menu-item:hover:not(.is-disabled):not(.is-label),
+.menu .menu-item.selected:not(.is-disabled):not(.is-label) {
+  background-color: rgba(139, 124, 246, 0.28) !important;
+}
+.menu .menu-item.is-warning:hover:not(.is-disabled),
+.menu .menu-item.is-warning.selected:not(.is-disabled) {
+  background-color: color-mix(in srgb, var(--text-error) 20%, transparent) !important;
+}
+.menu .menu-item:hover:not(.is-disabled):not(.is-label) .menu-item-icon,
+.menu .menu-item.selected:not(.is-disabled):not(.is-label) .menu-item-icon { color: #d9d2ff; }
+
+/* ############################ 6) FROSTED GLASS ############################
+   Obsidian's "Translucent window" (Settings > Appearance) is on: macOS blurs
+   whatever is behind the window. It only shows if the sidebar / top bar paint
+   a see-through background instead of a solid one, so that is what this does.
+   The note area itself stays solid so reading is not affected.
+*/
+body.is-translucent {
+  --glass-tint: rgba(30, 30, 44, 0.30);        /* raise the last number = darker/less see-through */
+  --glass-line: rgba(255, 255, 255, 0.07);
+}
+body.is-translucent .app-container,
+body.is-translucent .horizontal-main-container,
+body.is-translucent .workspace,
+body.is-translucent .workspace-ribbon,
+body.is-translucent .titlebar,
+body.is-translucent .workspace-split.mod-left-split,
+body.is-translucent .workspace-split.mod-left-split > .workspace-tabs,
+body.is-translucent .workspace-split.mod-left-split .workspace-tab-header-container,
+body.is-translucent .workspace-split.mod-left-split .workspace-tab-container,
+body.is-translucent .workspace-split.mod-left-split .view-content,
+body.is-translucent .workspace-split.mod-left-split .nav-files-container,
+body.is-translucent .workspace-split.mod-right-split,
+body.is-translucent .workspace-split.mod-right-split > .workspace-tabs,
+body.is-translucent .workspace-split.mod-right-split .workspace-tab-container,
+body.is-translucent .workspace-split.mod-right-split .view-content {
+  background: transparent !important;
+}
+/* the tint + glass edge on the sidebar column itself */
+body.is-translucent .workspace-split.mod-left-split,
+body.is-translucent .workspace-split.mod-right-split {
+  background: var(--glass-tint) !important;
+  border-right: 1px solid var(--glass-line);
+}
+/* top tab bar of the editor */
+body.is-translucent .mod-root .workspace-tabs .workspace-tab-header-container {
+  background: var(--glass-tint) !important;
+  border-bottom: 1px solid var(--glass-line);
+}
+body.is-translucent .mod-root .workspace-tab-header { background: transparent !important; }
+body.is-translucent .mod-root .workspace-tab-header.is-active {
+  background: rgba(255, 255, 255, 0.09) !important;     /* active tab = lighter glass pill */
+  border-radius: 8px;
+}
+/* the note itself stays a solid dark page (the rounded "sheet" look) */
+body.is-translucent .mod-root .workspace-tab-container,
+body.is-translucent .mod-root .view-content { background: var(--background-primary) !important; }
+
+/* top bar: Obsidian paints it through these variables / wrappers, so clear them too */
+body.is-translucent {
+  --tab-container-background: transparent;
+  --titlebar-background: transparent;
+  --titlebar-background-focused: transparent;
+}
+body.is-translucent .workspace-tabs.mod-top,
+body.is-translucent .mod-root .workspace-tabs,
+body.is-translucent .mod-root .workspace-tab-header-container-inner,
+body.is-translucent .mod-root .workspace-tab-header-container {
+  background: var(--glass-tint) !important;
+}
+body.is-translucent .mod-root .workspace-tabs .workspace-tab-container { background: var(--background-primary) !important; }
+
+/* active tab = a small rounded glass pill (remove Obsidian's curved "folder tab" corners) */
+body.is-translucent .mod-root .workspace-tab-header.is-active::before,
+body.is-translucent .mod-root .workspace-tab-header.is-active::after { display: none !important; }
+body.is-translucent .mod-root .workspace-tab-header.is-active,
+body.is-translucent .mod-root .workspace-tab-header.is-active .workspace-tab-header-inner {
+  box-shadow: none !important;
+}
+body.is-translucent .mod-root .workspace-tab-header.is-active {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-radius: 8px !important;
+  margin: 4px 2px;
+}
+body.is-translucent .mod-root .workspace-tab-header .workspace-tab-header-inner { background: transparent !important; }
+
+/* the editor column itself was a solid sheet behind the tab bar; make it clear so the bar shows glass */
+body.is-translucent .workspace-split.mod-root,
+body.is-translucent .workspace-split.mod-vertical.mod-root,
+body.is-translucent .mod-root .workspace-tabs,
+body.is-translucent .mod-root .workspace-tabs.mod-active,
+body.is-translucent .mod-root .workspace-tabs.mod-stacked { background: transparent !important; }
+body.is-translucent .mod-root .workspace-tab-header-container,
+body.is-translucent .mod-root .workspace-tab-header-container-inner { background: var(--glass-tint) !important; }
+
+/* ############################ 7) SIDEBAR FOOTER + TOP-LEFT BUTTONS ############################ */
+
+/* top-left view buttons (plugin panel / file explorer): push them right of the red-yellow-green window buttons */
+.workspace-split.mod-left-split .workspace-tab-header-container-inner {
+  margin-left: 16px;
+}
+.workspace-split.mod-left-split .workspace-tab-header-container {
+  padding-left: 4px;
+}
+
+/* bottom: vault switcher + help/settings as one rounded glass bar */
+.workspace-split.mod-left-split .workspace-sidedock-vault-profile,
+.workspace-sidedock-vault-profile {
+  margin: 6px 10px 10px;
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  align-items: center;
+}
+.workspace-drawer-vault-switcher {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  gap: 8px;
+  color: var(--text-normal);
+}
+.workspace-drawer-vault-switcher:hover { background: rgba(255, 255, 255, 0.08); }
+.workspace-drawer-vault-switcher-icon { color: var(--text-muted); }
+.workspace-drawer-vault-actions { gap: 2px; }
+.workspace-drawer-vault-actions .clickable-icon {
+  width: 30px; height: 30px; border-radius: 8px; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+}
+.workspace-drawer-vault-actions .clickable-icon:hover { background: rgba(255, 255, 255, 0.10); color: var(--text-normal); }
+.workspace-drawer-vault-actions { padding-right: 4px; }
+.workspace-sidedock-vault-profile { box-sizing: border-box; width: calc(100% - 20px); }
+.workspace-split.mod-left-split .workspace-sidedock-vault-profile { margin-right: 10px !important; max-width: calc(100% - 20px) !important; overflow: hidden; }
+
+/* ############################ 8) CALM GLASS DIALOGS ############################ */
+/* pop-ups: dark frosted panel, rounded, quiet */
+.modal, .prompt {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: #1b1b22;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.modal-bg { background: rgba(8, 8, 14, 0.40); }
+.prompt-input { background: transparent; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.suggestion-item { border-radius: 8px; }
+.suggestion-item.is-selected { background: rgba(139, 124, 246, 0.24); }
+.notice { border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.10); background: color-mix(in srgb, #1b1b22 92%, transparent); }
+
+/* sidebar tint: very gentle top-to-bottom shift */
+body.is-translucent .workspace-split.mod-left-split {
+  background: linear-gradient(180deg, rgba(36, 34, 56, 0.34) 0%, rgba(22, 22, 32, 0.30) 100%) !important;
+}
+
+/* ############################ 9) CALM NOTES ############################
+   Same idea as the sidebar: neutral white text on glass-gray surfaces, ONE accent
+   colour (soft violet) used sparingly. Colour appears only where it helps:
+   the page title, links, quote bars, highlights, checkboxes. Everything else is
+   white / gray, with hairline borders on faint white fills.
+*/
+body.theme-dark {
+  --accent-soft: #b8a8ff;                       /* the one accent colour: change it here */
+  --surface: rgba(255, 255, 255, 0.045);        /* card fill */
+  --hairline: rgba(255, 255, 255, 0.09);        /* card border */
+
+  /* headings: white/gray ladder, only the page title (h1) carries the accent */
+  --h1-color: var(--accent-soft);
+  --h2-color: #f2f2f5;
+  --h3-color: #e0e0e6;
+  --h4-color: #c9c9d2;
+  --h5-color: #aeaeb9;
+  --h6-color: #8e8e9a;
+  --h1-weight: 750;
+  --h2-weight: 650;
+  --h3-weight: 620;
+
+  /* text */
+  --bold-color: #ffffff;
+  --italic-color: #d8d8e0;
+  --link-color: var(--accent-soft);
+  --link-color-hover: #ffffff;
+  --link-external-color: var(--accent-soft);
+  --link-external-color-hover: #ffffff;
+  --link-decoration: none;                      /* no underline until hover */
+  --link-decoration-hover: underline;
+  --link-external-decoration: none;
+  --link-external-decoration-hover: underline;
+  --text-highlight-bg: rgba(184, 168, 255, 0.22);
+  --text-selection: rgba(184, 168, 255, 0.28);
+
+  /* lists, quotes, checkboxes */
+  --list-marker-color: rgba(255, 255, 255, 0.35);
+  --blockquote-border-color: rgba(184, 168, 255, 0.55);
+  --blockquote-color: var(--text-muted);
+  --checkbox-color: var(--accent-soft);
+  --checkbox-marker-color: #1b1b22;
+  --hr-color: var(--hairline);
+}
+
+/* callouts: flat faint card; the type colour shows only in the small title + icon */
+.callout {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 12px !important;
+  box-shadow: none;
+}
+.callout-title { font-weight: 600; }
+
+/* code, math, tables, embeds: same faint fill + hairline + 10px corners */
+.markdown-rendered pre,
+.markdown-rendered .math-block,
+.cm-embed-block.cm-math-type,
+.markdown-embed,
+.markdown-rendered table,
+.cm-table-widget table {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.markdown-rendered table th, .markdown-rendered table td { border-color: var(--hairline) !important; }
+.markdown-rendered table thead th { background: rgba(255, 255, 255, 0.04) !important; color: var(--text-muted); border-bottom-color: var(--hairline) !important; }
+.markdown-rendered tbody tr:nth-child(even) td, .cm-table-widget tbody tr:nth-child(even) td { background-color: transparent !important; }
+
+/* inline code: neutral chip */
+.cm-inline-code, .markdown-rendered :not(pre) > code {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  color: #e6e6ee;
+  border-radius: 6px;
+}
+
+/* tags: quiet pill, accent on hover */
+.tag { background: rgba(255, 255, 255, 0.07); color: var(--text-muted); border: 0; border-radius: 999px; padding: 1px 9px; }
+.tag:hover { color: var(--accent-soft); }
+
+/* images: soft corners */
+.markdown-rendered img, .image-embed img { border-radius: 10px; }
+
+/* h2 gets a hairline under it: structure without colour */
+.markdown-rendered h2, .HyperMD-header-2 { padding-bottom: 0.2em; border-bottom: 1px solid var(--hairline); }
+.markdown-rendered h2 { margin-top: 1.6em; }
+
+/* tab titles + file name above notes stay neutral */
+.workspace-tab-header.is-active .workspace-tab-header-inner-title { color: #fff !important; }
+
+/* H1 (page title) in blue instead of violet; everything else keeps the violet accent */
+body.theme-dark { --h1-color: #7aa2f7; }
+
+/* ---- pop-ups: SOLID panel (not transparent). Only the dimmed area behind a pop-up is blurred. ---- */
+.modal, .prompt {
+  background: #1b1b22 !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 24px 70px rgba(0, 0, 0, 0.55);
+}
+.modal-bg {
+  background: rgba(8, 8, 14, 0.35);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+/* key combos like "⌘ P" never break across lines */
+.ss-cheat-body td code, .ss-cheat-body th code { white-space: nowrap; }  /* cheat sheets only: keep commands on one line */
+.ss-cheat-body table td:first-child { white-space: nowrap; }
+
+/* bottom bar: hide the "?" help button, keep only the settings gear */
+.workspace-drawer-vault-actions .clickable-icon[aria-label="Help"],
+.workspace-drawer-vault-actions .clickable-icon:not(:last-child) { display: none; }
+
+/* ===== 10. LIVE PREVIEW = same cards as reading view / pop-ups =====
+   The card rules above only matched reading view (.markdown-rendered).
+   Live Preview (the editor) uses other class names, so they are added here. */
+
+/* math ($$ ... $$): the card is the math element itself */
+.markdown-source-view.mod-cm6 .math-block,
+.markdown-source-view.mod-cm6 .cm-embed-block.math {
+  background-color: var(--surface) !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  margin: 1em 0 !important;
+  padding: 1rem 0.8rem !important;
+  box-sizing: border-box;
+  font-size: 1.3em !important;
+}
+
+/* code blocks: left/right border on every line, rounded top + bottom */
+.markdown-source-view.mod-cm6 .HyperMD-codeblock-bg {
+  background-color: var(--surface) !important;
+  border-left: 1px solid var(--hairline) !important;
+  border-right: 1px solid var(--hairline) !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+.markdown-source-view.mod-cm6 .HyperMD-codeblock-begin-bg {
+  border-top: 1px solid var(--hairline) !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+.markdown-source-view.mod-cm6 .HyperMD-codeblock-end-bg {
+  border-bottom: 1px solid var(--hairline) !important;
+  border-radius: 0 0 10px 10px !important;
+}
+
+/* ===== 11. POP-UP FRAMES: consistent, never broken =====
+   - display:block stops the math card from being split into slivers (equations with \tag{...})
+   - tables are always full width, like callouts and code cards */
+.markdown-rendered .math-block { display: block !important; width: 100% !important; box-sizing: border-box; }
+.markdown-rendered .math-block mjx-container { max-width: 100%; }
+.ss-cheat-body table { width: 100% !important; table-layout: auto; }
+.ss-cheat-body pre, .ss-cheat-body .callout, .ss-cheat-body .math-block { width: 100% !important; box-sizing: border-box; }
+
+/* ===== 12. NOTE BACKGROUND = same as pop-ups (#1b1b22) ===== */
+.workspace-leaf-content[data-type="markdown"],
+.workspace-leaf-content[data-type="markdown"] .view-content,
+.markdown-source-view,
+.markdown-reading-view,
+.markdown-source-view .cm-editor,
+.markdown-preview-view {
+  background-color: #1b1b22 !important;
+}
+
+/* ===== 13. LIVE PREVIEW TABLES stay inside the text column ===== */
+.markdown-source-view.mod-cm6 .cm-embed-block.cm-table-widget,
+.markdown-source-view.mod-cm6 .cm-table-widget {
+  max-width: 100% !important;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+.markdown-source-view.mod-cm6 .cm-table-widget table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+.markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper,
+.markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper > table { width: 100% !important; max-width: 100% !important; }
+.markdown-source-view.mod-cm6 .cm-table-widget { margin-right: 0 !important; padding-right: 0 !important; }
+
+/* ===== 14. Motion (clean) ================================================
+   Principles: no bounce, no overshoot. One easing curve, 150-250 ms.
+   Motion shows direction (slide) or change (colour/position glides). */
+:root { --out: cubic-bezier(.22, .61, .36, 1); }
+
+/* colours of the whole panel glide when the subject/folder changes.
+   @property tells the browser that --ss-accent is a colour, so it can be animated. */
+@property --ss-accent { syntax: '<color>'; inherits: true; initial-value: #6188ff; }
+.ss-root { transition: --ss-accent .3s var(--out); overflow-x: hidden; }
+
+/* subject tabs: the highlight slides from the old tab to the new one */
+.ss-pills { position: relative; }
+.ss-pill { position: relative; z-index: 1; }
+.ss-pill.is-active { background: transparent !important; }
+.ss-pill-ind { position: absolute; top: 4px; bottom: 4px; z-index: 0; border-radius: 9px; pointer-events: none;
+  transition: left .22s var(--out), width .22s var(--out), background-color .22s var(--out); }
+
+/* content slides the way you moved (class set by main.js only when the position changed).
+   The old content is cloned into .ss-ghost and slides out the other way (see render() in main.js). */
+@keyframes ss-in-right { from { opacity: 0; transform: translateX(22px); } to { opacity: 1; transform: none; } }
+@keyframes ss-in-left  { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: none; } }
+.ss-root.ss-from-right > *:not(.ss-modes):not(.ss-pills):not(.ss-crumbs):not(.ss-search):not(.ss-ghost) { animation: ss-in-right .3s cubic-bezier(.22,.61,.36,1) .06s both; }
+.ss-root.ss-from-left  > *:not(.ss-modes):not(.ss-pills):not(.ss-crumbs):not(.ss-search):not(.ss-ghost) { animation: ss-in-left  .3s cubic-bezier(.22,.61,.36,1) .06s both; }
+.ss-root { position: relative; }
+.ss-ghost { position: absolute; left: 0; right: 0; padding: 0 10px; pointer-events: none; z-index: 2; }
+
+/* the coloured header card is part of the slide above (it moves with the notes);
+   its colour also glides from the old subject's colour via --ss-accent. */
+@keyframes ss-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* hover feedback: colour only, nothing moves */
+.ss-pill, .ss-mode, .ss-row, .ss-sort, .ss-back, .ss-topic-head, .ss-icon-btn, .ss-tile {
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+.ss-chevron svg { transition: transform .2s var(--out); }
+
+/* folder open: contents fade down a few pixels */
+.ss-results .ss-row { animation: ss-fade .15s ease-out both; }
+
+/* drag & drop */
+.is-dragging { opacity: .5; }
+
+/* pop-ups: short fade + 8 px rise */
+@keyframes ss-modal-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.modal-container .modal, .modal-container .prompt { animation: ss-modal-in .22s var(--out) both; }
+.modal-container .modal-bg { animation: ss-fade .2s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-root *, .ss-root, .modal-container .modal, .modal-container .prompt, .modal-container .modal-bg { animation: none !important; transition: none !important; }
+}
+
+/* the scrollbar took ~14 px of width as soon as a chapter made the list longer -> the right margin grew.
+   Hide it in the sidebar panel (you still scroll with the wheel/trackpad), so the width never changes. */
+.ss-root { scrollbar-width: none; }
+.ss-root::-webkit-scrollbar { display: none; }
+
+.ss-pill { overflow: hidden; }   /* a shrinking tab clips its label instead of wrapping it */

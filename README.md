@@ -12,7 +12,7 @@ Plain JavaScript, no build step, no dependencies, no network access. Works on de
 
 ![School mode](docs/screenshots/school.png)
 
-> The screenshots are renders from a test harness, not from real Obsidian. Replace them with your own in `docs/screenshots/`.
+> Screenshots are from real Obsidian using the included `sample-vault` (dark theme with the optional CSS snippet, see below).
 
 ## Features
 
@@ -59,7 +59,11 @@ There is nothing to compile: the files in the repo root are the plugin.
 
 ### Try it first
 
-`sample-vault/` is a ready-made vault with sample notes. Open it via *Open folder as vault*, enable community plugins, and the plugin is already installed.
+`sample-vault/` is a ready-made vault with sample notes. Open it via *Open folder as vault*, click *Turn on and reload* to enable community plugins, and the plugin is already installed.
+
+### Optional: the look from the screenshots
+
+The plugin only uses Obsidian's own CSS variables, so it follows your theme. The screenshots also use a small CSS snippet that tidies the editor (headings, callouts, tables). It is in `sample-vault/.obsidian/snippets/style.css`; to use it in your own vault copy it to `<your vault>/.obsidian/snippets/` and enable it in *Settings → Appearance → CSS snippets*. It is optional.
 
 ## Quick start
 
@@ -105,6 +109,8 @@ There is nothing to compile: the files in the repo root are the plugin.
 | Pop-up notes | Up to three notes with name, icon and note picker |
 
 ![Settings](docs/screenshots/settings.png)
+
+![Modes tab](docs/screenshots/settings-modes.png)
 
 ## FAQ and troubleshooting
 
